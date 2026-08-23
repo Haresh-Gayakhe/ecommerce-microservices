@@ -9,7 +9,6 @@
   <ItemGroup>
     <Folder Include="Features\" />
     <Folder Include="DTOs\" />
-    <Folder Include="Interfaces\" />
     <Folder Include="Behaviors\" />
     <Folder Include="Common\" />
     <Folder Include="Exceptions\" />
