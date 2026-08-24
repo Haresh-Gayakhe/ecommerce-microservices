@@ -1,4 +1,5 @@
 ﻿using ECommerce.Application.Features.Products.Commands.CreateProduct;
+using ECommerce.Application.Features.Products.Queries.GetAllProducts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,6 +13,13 @@ namespace ECommerce.API.Controllers
         public ProductController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _mediator.Send(new GetAllProductsQuery());
+            return Ok(result);
         }
 
         [HttpPost]
