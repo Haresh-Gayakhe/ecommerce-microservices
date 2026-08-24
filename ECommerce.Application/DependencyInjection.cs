@@ -1,4 +1,6 @@
-﻿using ECommerce.Application.Common.Mappings;
+﻿using ECommerce.Application.Behaviors;
+using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -11,6 +13,8 @@ namespace ECommerce.Application
             var assembly = Assembly.GetExecutingAssembly();
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assembly));
             services.AddAutoMapper(cfg => cfg.AddMaps(assembly));
+            services.AddValidatorsFromAssembly(assembly);
+            services.AddTransient(typeof(IPipelineBehavior<,>),typeof(ValidationBehavior<,>));
             return services;
         }
     }
