@@ -2,7 +2,7 @@
 
 namespace ECommerce.Infrastructure.Services
 {
-    public class JwtTokenGenerator : IJwtTokenGenerator
+    public class JwtTokenGenerator //: IJwtTokenGenerator
     {
     }
 }

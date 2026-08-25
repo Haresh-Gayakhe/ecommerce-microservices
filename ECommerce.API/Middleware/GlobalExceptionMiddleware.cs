@@ -45,7 +45,7 @@ namespace ECommerce.API.Middleware
             await context.Response.WriteAsJsonAsync(
                 new
                 {
-                    StatusCOde = context.Response.StatusCode,
+                    StatusCode = context.Response.StatusCode,
                     Message = ex.Message
                 });
         }
