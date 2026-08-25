@@ -1,3 +1,4 @@
+using ECommerce.API;
 using ECommerce.Application;
 using ECommerce.Infrastructure;
 
@@ -25,6 +26,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseGlobalExceptionHandling();
 
 app.UseHttpsRedirection();
 app.MapControllers();
