@@ -1,4 +1,5 @@
-﻿using ECommerce.Application.Features.Identity.Commands.RegisterUser;
+﻿using ECommerce.Application.Features.Identity.Commands.LoginUser;
+using ECommerce.Application.Features.Identity.Commands.RegisterUser;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,8 +18,15 @@ namespace ECommerce.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterUserCommand command)
         {
-            var userId = _mediator.Send(command);
+            var userId = await _mediator.Send(command);
             return Ok(userId);
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginUserCommand command)
+        {
+            var token = await _mediator.Send(command);
+            return Ok(token);
         }
     }
 }
