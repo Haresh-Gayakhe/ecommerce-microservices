@@ -1,5 +1,7 @@
-﻿using ECommerce.Application.Features.Products.Commands.CreateProduct;
+﻿using ECommerce.Application.Common.Models;
+using ECommerce.Application.Features.Products.Commands.CreateProduct;
 using ECommerce.Application.Features.Products.Queries.GetAllProducts;
+using ECommerce.Application.Features.Products.Queries.SearchProducts;
 using ECommerce.Domain.Constants;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -31,6 +33,13 @@ namespace ECommerce.API.Controllers
         {
             var id = await _mediator.Send(command);
             return Ok(id);
+        }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> Search([FromQuery] ProductQueryParameters parameters)
+        {
+            var result = await _mediator.Send(new SearchProductsQuery(parameters));
+            return Ok(result);
         }
     }
 }
