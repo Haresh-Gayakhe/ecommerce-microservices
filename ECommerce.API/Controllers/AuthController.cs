@@ -1,7 +1,9 @@
 ﻿using ECommerce.Application.Features.Identity.Commands.LoginUser;
 using ECommerce.Application.Features.Identity.Commands.RegisterUser;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace ECommerce.API.Controllers
 {
@@ -13,6 +15,17 @@ namespace ECommerce.API.Controllers
         public AuthController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [Authorize]
+        [HttpGet("me")]
+        public IActionResult Me()
+        {
+            return Ok(new{
+                UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                Email = User.FindFirstValue(ClaimTypes.Email),
+                Role = User.FindFirstValue(ClaimTypes.Role)
+            });
         }
 
         [HttpPost("register")]

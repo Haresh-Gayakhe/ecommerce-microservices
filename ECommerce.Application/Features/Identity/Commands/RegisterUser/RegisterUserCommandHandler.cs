@@ -1,4 +1,5 @@
 ﻿using ECommerce.Application.Interfaces;
+using ECommerce.Domain.Constants;
 using ECommerce.Domain.Entities;
 using MediatR;
 
@@ -33,7 +34,7 @@ namespace ECommerce.Application.Features.Identity.Commands.RegisterUser
                 LastName = request.LastName,
                 Email = request.Email,
                 PasswordHash = _passwordHasher.Hash(request.Password),
-                Role = "Customer",
+                Role = Roles.Customer,
                 CreatedOn = DateTime.UtcNow
             };
 
