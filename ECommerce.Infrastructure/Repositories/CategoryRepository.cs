@@ -5,22 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.Infrastructure.Repositories
 {
-    public class CategoryRepository : ICategoryRepository
+    public class CategoryRepository : GenericRepository<Category>, ICategoryRepository
     {
-        private readonly ApplicationDbContext _context;
-        public CategoryRepository(ApplicationDbContext context)
+        public CategoryRepository(ApplicationDbContext context) : base(context)
         {
-            _context = context;
-        }
-
-        public async Task<IEnumerable<Category>> GetAllAsync()
-        {
-            return await _context.Categories.ToListAsync();
-        }
-
-        public async Task AddAsync(Category category)
-        {
-            await _context.Categories.AddAsync(category);
         }
     }
 }

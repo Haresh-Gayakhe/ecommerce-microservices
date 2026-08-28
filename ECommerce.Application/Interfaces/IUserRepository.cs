@@ -2,9 +2,8 @@
 
 namespace ECommerce.Application.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserRepository : IGenericRepository<ApplicationUser>
     {
         Task<ApplicationUser?> GetByEmailAsync(string email);
-        Task AddAsync(ApplicationUser user);
     }
 }

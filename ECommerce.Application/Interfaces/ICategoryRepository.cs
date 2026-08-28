@@ -2,9 +2,7 @@
 
 namespace ECommerce.Application.Interfaces
 {
-    public interface ICategoryRepository
+    public interface ICategoryRepository : IGenericRepository<Category>
     {
-        Task<IEnumerable<Category>> GetAllAsync();
-        Task AddAsync(Category category);
     }
 }
