@@ -23,6 +23,7 @@ namespace ECommerce.Infrastructure
             services.AddScoped<IUserRepository, UserRepository>();
             services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
             services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
 
             return services;
         }

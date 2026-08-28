@@ -9,6 +9,7 @@ namespace ECommerce.Application.Common.Mappings
         public ProductMappingProfile()
         {
             CreateMap<Product, ProductDto>();
+            CreateMap<Category,  CategoryDto>();
         }
     }
 }
