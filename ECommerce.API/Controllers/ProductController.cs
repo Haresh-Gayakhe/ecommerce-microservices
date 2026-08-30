@@ -1,5 +1,7 @@
 ﻿using ECommerce.Application.Common.Models;
 using ECommerce.Application.Features.Products.Commands.CreateProduct;
+using ECommerce.Application.Features.Products.Commands.DeleteProduct;
+using ECommerce.Application.Features.Products.Commands.UpdateProduct;
 using ECommerce.Application.Features.Products.Queries.GetAllProducts;
 using ECommerce.Application.Features.Products.Queries.GetProductById;
 using ECommerce.Application.Features.Products.Queries.SearchProducts;
@@ -48,6 +50,22 @@ namespace ECommerce.API.Controllers
         {
             var result = await _mediator.Send(new GetProductByIdQuery(id));
             return Ok(result);
+        }
+
+        [Authorize(Roles = "Admin,Seller")]
+        [HttpPut]
+        public async Task<IActionResult> Update(UpdateProductCommand command)
+        {
+            await _mediator.Send(command);
+            return NoContent();
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            await _mediator.Send(new DeleteProductCommand(id));
+            return NoContent();
         }
     }
 }

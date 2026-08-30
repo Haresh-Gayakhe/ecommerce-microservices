@@ -33,6 +33,7 @@ namespace ECommerce.Infrastructure.Repositories
                 _ => query.OrderBy(x => x.Name)
             };
 
+            query = query.Where(x => !x.IsDeleted);
             query = query.Skip((parameters.PageNumber - 1) * parameters.PageSize).Take(parameters.PageSize);
 
             return await query.ToListAsync();
