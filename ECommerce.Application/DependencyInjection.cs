@@ -15,6 +15,7 @@ namespace ECommerce.Application
             services.AddAutoMapper(cfg => cfg.AddMaps(assembly));
             services.AddValidatorsFromAssembly(assembly);
             services.AddTransient(typeof(IPipelineBehavior<,>),typeof(ValidationBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
             return services;
         }
     }

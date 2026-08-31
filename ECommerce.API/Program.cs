@@ -5,8 +5,18 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using System.Text;
+using Serilog;
+using ECommerce.API.Middleware;
+
+Log.Logger = new LoggerConfiguration()
+    .WriteTo
+    .Console()
+    .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog();
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -77,9 +87,17 @@ if (app.Environment.IsDevelopment())
 
 app.UseGlobalExceptionHandling();
 
+app.UseCorrelationId();
+
+app.UseSerilogRequestLogging();
+
 app.UseHttpsRedirection();
+
 app.UseAuthentication();
+
 app.UseAuthorization();
+
 app.MapControllers();
+
 app.Run();
 
