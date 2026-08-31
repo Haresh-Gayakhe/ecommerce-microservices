@@ -8,11 +8,12 @@ namespace ECommerce.Application.Features.Products.Commands.DeleteProduct
     {
         private readonly IProductRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
-
-        public DeleteProductCommandHandler(IProductRepository repository, IUnitOfWork unitOfWork)
+        private readonly ICacheService _cacheService;
+        public DeleteProductCommandHandler(IProductRepository repository, IUnitOfWork unitOfWork, ICacheService cacheService)
         {
             _repository = repository;
             _unitOfWork = unitOfWork;
+            _cacheService = cacheService;
         }
 
         public async Task<Unit> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
@@ -29,6 +30,8 @@ namespace ECommerce.Application.Features.Products.Commands.DeleteProduct
 
             _repository.Update(product);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            await _cacheService.RemoveAsync($"product:{product.Id}");
 
             return Unit.Value;
         }

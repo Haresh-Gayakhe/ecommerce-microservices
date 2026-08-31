@@ -3,6 +3,7 @@ using ECommerce.Application.Interfaces;
 using ECommerce.Infrastructure.Persistence;
 using ECommerce.Infrastructure.Repositories;
 using ECommerce.Infrastructure.Services.Authentication;
+using ECommerce.Infrastructure.Services.Caching;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +25,13 @@ namespace ECommerce.Infrastructure
             services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
             services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = configuration["Redis:ConnectionString"];
+            });
+
+            services.AddScoped<ICacheService, RedisCacheService>();
 
             return services;
         }
