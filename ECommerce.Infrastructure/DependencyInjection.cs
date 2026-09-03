@@ -3,7 +3,9 @@ using ECommerce.Application.Interfaces;
 using ECommerce.Infrastructure.Persistence;
 using ECommerce.Infrastructure.Repositories;
 using ECommerce.Infrastructure.Services.Authentication;
+using ECommerce.Infrastructure.Services.BackgroundJobs;
 using ECommerce.Infrastructure.Services.Caching;
+using ECommerce.Infrastructure.Services.Email;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,6 +34,8 @@ namespace ECommerce.Infrastructure
             });
 
             services.AddScoped<ICacheService, RedisCacheService>();
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IBackgroundJobService, HangfireBackgroundJobService>();
 
             return services;
         }

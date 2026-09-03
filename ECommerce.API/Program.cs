@@ -7,6 +7,7 @@ using Microsoft.OpenApi;
 using System.Text;
 using Serilog;
 using ECommerce.API.Middleware;
+using Hangfire;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo
@@ -73,6 +74,12 @@ builder.Services.AddSwaggerGen(options =>
         });
 });
 
+builder.Services.AddHangfire(config =>
+{
+    config.UseSqlServerStorage(
+        builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
 
 var app = builder.Build();
 
@@ -96,6 +103,8 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseHangfireDashboard();
 
 app.MapControllers();
 

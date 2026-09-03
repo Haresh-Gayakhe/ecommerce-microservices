@@ -10,12 +10,15 @@ namespace ECommerce.Application.Features.Identity.Commands.RegisterUser
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IBackgroundJobService _backgroundJobService;
 
-        public RegisterUserCommandHandler(IUserRepository userRepository, IPasswordHasher passwordHasher, IUnitOfWork unitOfWork)
+        public RegisterUserCommandHandler(IUserRepository userRepository, IPasswordHasher passwordHasher, 
+            IUnitOfWork unitOfWork, IEmailService emailService, IBackgroundJobService backgroundJobService)
         {
             _userRepository = userRepository;
             _passwordHasher = passwordHasher;
             _unitOfWork = unitOfWork;
+            _backgroundJobService = backgroundJobService;
         }
 
         public async Task<Guid> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
@@ -40,6 +43,8 @@ namespace ECommerce.Application.Features.Identity.Commands.RegisterUser
 
             await _userRepository.AddAsync(user);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            _backgroundJobService.EnqueueWelcomeEmail(user.Email, user.FirstName);
 
             return user.Id;
         }
